@@ -1,0 +1,5 @@
+####### Requirements ######
+binance
+reqests 
+python_binance
+python-dotenv

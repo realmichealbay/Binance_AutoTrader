@@ -1,5 +1,8 @@
 ###### Requirements ######
-
+TA-Lib
+numpy
+pandas
+ccxt
 binance
 reqests 
 python_binance

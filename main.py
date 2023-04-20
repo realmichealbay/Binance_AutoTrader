@@ -1,19 +1,30 @@
-import urllib
-import hmac
-import hashlib
+## initial imports
 import requests
 import asyncio
 import time
 import os
-from datetime import datetime
 import logging
+## from imports
+from datetime import datetime
 from dotenv import load_dotenv   
 from binance.enums import *
+## program imports
+from extensions import get_binanceus_signature as signature
+
 
 HEAT = 100
 api_url = "https://api.binance.us"
 uri_path = "/api/v3/order"
-
+side_buy = "BUY"
+side_sell = "SELL"
+side = side_buy
+data = {
+    "symbol": trade_symbol,
+    "side":  side,
+    "type": "MARKET",
+    "quoteOrderQty": str(base_amt),
+    "timestamp":int(time.time() * 1000 )
+    }
 
 async def main():
     logging.basicConfig(filename="main.log", level=logging.INFO)
@@ -30,31 +41,20 @@ async def main():
     logging.info(f"API Secret: {api_secret}")
     logging.warning(f"Base Amount: {base_amt}")
     logging.warning(f"Add Profit To Base Amount: {add_profit}")
-    data = {
-    "symbol": trade_symbol,
-    "side": "BUY",
-    "type": "MARKET",
-    "quoteOrderQty": str(base_amt)
-    }
+    
+    
     binanceus_request(uri_path,data,api_key,api_secret)
     
-
-def get_binanceus_signature(data, secret):
-    postdata = urllib.parse.urlencode(data)
-    message = postdata.encode()
-    byte_key = bytes(secret, 'UTF-8')
-    mac = hmac.new(byte_key, message, hashlib.sha256).hexdigest()
-    return mac
-
 def binanceus_request(uri_path, data, api_key, api_sec):
     headers = {}
     headers['X-MBX-APIKEY'] = api_key
-    signature = get_binanceus_signature(data, api_sec)
+    signature = signature(data, api_sec)
     payload={
         **data,
         "signature": signature,
         }
     req = requests.post((api_url + uri_path), headers=headers, data=payload)
+    logging.warning(f"Buy Suceeded {req}")
     return req.text
 
 ##time in force options 

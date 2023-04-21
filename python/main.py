@@ -4,12 +4,14 @@ import asyncio
 import time
 import os
 import logging
+import urllib
+import hmac
+import hashlib
 ## from imports
 from datetime import datetime
 from dotenv import load_dotenv   
 from binance.enums import *
 ## program imports
-from extensions import get_binanceus_signature as signature
 
 
 HEAT = 100
@@ -56,6 +58,13 @@ def binanceus_request(uri_path, data, api_key, api_sec):
     req = requests.post((api_url + uri_path), headers=headers, data=payload)
     logging.warning(f"Buy Suceeded {req}")
     return req.text
+
+def get_binanceus_signature(data, secret):
+    postdata = urllib.parse.urlencode(data)
+    message = postdata.encode()
+    byte_key = bytes(secret, 'UTF-8')
+    mac = hmac.new(byte_key, message, hashlib.sha256).hexdigest()
+    return mac
 
 ##time in force options 
 #GTC (Good Till Canceled): The order will remain active until it is either filled completely or manually canceled by the trader.

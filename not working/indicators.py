@@ -2,10 +2,12 @@ import ccxt
 import pandas as pd
 import numpy as np
 import talib
+import os
+
 
 exchange = ccxt.binanceus({
-    'apiKey': 'your-api-key',
-    'secret': 'your-api-secret',
+    'apiKey': 'PUrKb7XrH7svUWinjOabWUni0svd8rKWG1rRpxUEg6bqWxOjIKMMO4BclQGvFHBb',
+    'secret': 'SNCIeKfh282jJOBFdX8W2e9jCdnRnqReI6F9rNcWyPXRDLgurRxHbfJqpKoxVavH',
 })
 
 # Fetch historical data

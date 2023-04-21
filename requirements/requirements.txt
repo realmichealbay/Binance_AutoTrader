@@ -1,4 +1,7 @@
 ###### Requirements ######
+flask
+flask-socketIO
+matplotlib
 TA-Lib
 numpy
 pandas
@@ -7,3 +10,5 @@ binance
 reqests 
 python_binance
 python-dotenv
+simple-websocket
+mplfinance

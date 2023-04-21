@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Trading Graph</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.min.js"></script>
+
+
+</head>
+<body>
+    <div id="graph-container" style="width: 800px; height: 600px; margin: 0 auto;"></div>
+    <script>
+        const socket = io();
+        socket.on('update_graph', function(data) {
+            document.getElementById('graph-container').innerHTML = '<img src="data:image/png;base64,' + data + '" />';
+        });
+    </script>
+</body>
+</html>

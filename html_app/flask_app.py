@@ -3,7 +3,7 @@ from flask_socketio import SocketIO
 import json
 import os 
 
-app = Flask(__name__,template_folder="./html_app")
+app = Flask(__name__,template_folder="./templates/")
 socketio = SocketIO(app)
 
 @app.route('/')
@@ -15,8 +15,11 @@ def get_data():
     with open("./html_app/data.json","r") as datafile:
         json_data = json.load(datafile)
         datafile.close()
-    data = {f"message": {json_data}}
+    data = {"message": json_data}
     return jsonify(data)
+
+
+
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)

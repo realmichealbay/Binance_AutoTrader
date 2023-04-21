@@ -4,23 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live Trading Graph</title>
+    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
 </head>
+
 <body>
     <h2>Trades</h2>
 
     <h1>{{ message }}</h1>
     <button id="fetchDataButton">Fetch data</button>
     <div id="dataContainer"></div>
+    <div id='chart'></div>
+
+   
+    
     <script>
         document.getElementById('fetchDataButton').addEventListener('click', async () => {
             try {
                 const response = await fetch('/get-data');
                 const data = await response.json();
-                document.getElementById('dataContainer').innerHTML = data.message;
+                document.getElementById('dataContainer').innerHTML = data.message.s;
+
+                console.log(data.message.k.c)
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         });
     </script>
+    <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
 </body>
 </html>

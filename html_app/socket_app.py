@@ -4,7 +4,6 @@ import time
 import websocket
 import json
 from datetime import datetime
-import asyncio
 
 symbol = "BTCusd"
 

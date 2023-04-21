@@ -15,6 +15,7 @@ def on_open(ws):
 
 def on_message(ws, message):
     data = json.loads(message)
+    print(data)
     with open("data.json", "w") as datafile:
         json.dump(data, datafile)
         datafile.close()

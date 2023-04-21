@@ -63,4 +63,4 @@ candleSeries.setData([
 	{ time: '2018-11-21', open: 170.00, high: 170.93, low: 169.15, close: 169.30 },
 	{ time: '2018-11-23', open: 169.39, high: 170.33, low: 168.47, close: 168.85 },
 	{ time: '2018-11-26', open: 170.20, high: 172.39, low: 168.87, close: 169.82 },
-]);a
+]);

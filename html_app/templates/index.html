@@ -12,21 +12,78 @@
 
     <div id="dataContainer"></div>
     <div id='chart'></div>
+ 
     <script>
+        function convertTimestampToISO(timestamp) {
+            const date = new Date(timestamp);
+            return date.toISOString().split('.')[0] + 'Z';
+        }
+    
+        let historicalData = [];
+    
         async function fetchDataAndUpdateUI() {
-        try {
-            const response = await fetch('/get-data');
-            const data = await response.json();
-
-            document.getElementById('dataContainer').innerHTML = data.message.k.c;
-            console.log(data.message);
-        } catch (error) {
-            console.error('Error fetching data:', error);
+            try {
+                const response = await fetch('/get-data');
+                const data = await response.json();
+    
+                document.getElementById('dataContainer').innerHTML = data.message.k;
+                console.log(data.message);
+    
+                // Add the fetched data to the historicalData array
+                historicalData.push({
+                    time: convertTimestampToISO(data.message.k.t), // Use the converted timestamp from the fetched data
+                    open: data.message.k.o,
+                    high: data.message.k.h,
+                    low: data.message.k.l,
+                    close: data.message.k.c
+                });
+    
+                // Set the accumulated historicalData to the candleSeries
+                candleSeries.setData(historicalData);
+    
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
         }
-        }
-
+    
         const intervalId = setInterval(fetchDataAndUpdateUI, 1000); // Fetch data and update UI every second
+    
+        var chart = LightweightCharts.createChart(document.getElementById("chart"), {
+            width: 600,
+            height: 300,
+            layout: {
+                background: {
+                    type: 'solid',
+                    color: '#000000',
+                },
+                textColor: 'rgba(255, 255, 255, 0.9)',
+            },
+            grid: {
+                vertLines: {
+                    color: 'rgba(197, 203, 206, 0.5)',
+                },
+                horzLines: {
+                    color: 'rgba(197, 203, 206, 0.5)',
+                },
+            },
+            crosshair: {
+                mode: LightweightCharts.CrosshairMode.Normal,
+            },
+            rightPriceScale: {
+                borderColor: 'rgba(197, 203, 206, 0.8)',
+            },
+            timeScale: {
+                borderColor: 'rgba(197, 203, 206, 0.8)',
+            },
+        });
+        var candleSeries = chart.addCandlestickSeries({
+            upColor: 'rgba(255, 144, 0, 1)',
+            downColor: '#000',
+            borderDownColor: 'rgba(255, 144, 0, 1)',
+            borderUpColor: 'rgba(255, 144, 0, 1)',
+            wickDownColor: 'rgba(255, 144, 0, 1)',
+            wickUpColor: 'rgba(255, 144, 0, 1)',
+        });
     </script>
-    <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
 </body>
 </html>

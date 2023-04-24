@@ -4,3 +4,6 @@ main.log
 .txt
 __pycache__
 data.json
+settings.json
+.json
+.vscode/
